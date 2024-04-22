@@ -3,13 +3,8 @@ import BlogHero from "@/components/BlogHero";
 import styles from "./postSlug.module.css";
 import { loadBlogPost } from "@/helpers/file-helpers";
 import { MDXRemote } from "next-mdx-remote/rsc";
-import CodeSnippet from "@/components/CodeSnippet";
-import dynamic from "next/dynamic";
-import Spinner from "@/components/Spinner";
+import COMPONENTS_MAPS from "@/helpers/mdx-components";
 
-const DivisionGroupsDemo = dynamic(() => import("@/components/DivisionGroupsDemo"), {
-  loading: () => <Spinner />,
-});
 export async function generateMetadata({ params }) {
   const { frontmatter } = await loadBlogPost(params.postSlug);
 
@@ -25,7 +20,7 @@ async function BlogPost({ params }) {
     <article className={styles.wrapper}>
       <BlogHero title={frontmatter.title} publishedOn={frontmatter.publishedOn} />
       <div className={styles.page}>
-        <MDXRemote source={content} components={{ pre: CodeSnippet, DivisionGroupsDemo }} />
+        <MDXRemote source={content} components={COMPONENTS_MAPS} />
       </div>
     </article>
   );
